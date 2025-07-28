@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go-mini-server/core"
 	"go-mini-server/core/db/pool"
@@ -27,22 +26,6 @@ const configPath = "./config.yaml"
 
 var producer *kafka.Producer
 
-var (
-	kafkaMessagesProduced = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "kafka_messages_produced_total",
-			Help: "Total number of Kafka messages produced",
-		},
-	)
-
-	kafkaMessagesConsumed = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "kafka_messages_consumed_total",
-			Help: "Total number of Kafka messages consumed",
-		},
-	)
-)
-
 func main() {
 	defer recoverPanic()
 
@@ -59,8 +42,6 @@ func main() {
 	initServices(c)
 
 	startServer(c)
-
-	initPrometheus()
 }
 
 func recoverPanic() {
@@ -119,9 +100,4 @@ func startServer(c Config) {
 	}
 
 	log.Println("server exited properly")
-}
-
-func initPrometheus() {
-	prometheus.MustRegister(kafkaMessagesProduced)
-	prometheus.MustRegister(kafkaMessagesConsumed)
 }
