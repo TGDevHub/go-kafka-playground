@@ -1,0 +1,16 @@
+web:
+  listen: 0.0.0.0:80
+  timeout: 59s
+
+db:
+  host: mysql
+  port: 3306
+  user: root
+  password: password
+  timeout: 20s
+
+kafka:
+  brokers:
+    - localhost:9092
+  topic: user-events
+  group_id: mini-server-group
